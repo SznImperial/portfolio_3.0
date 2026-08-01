@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adetola Abdulkareem Ayinde - Executive Resume & CV</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #1a1a1b;
+            background-color: #f3f4f6;
+            line-height: 1.5;
+            font-size: 11pt;
+            padding: 40px 20px;
+        }
+
+        .resume-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+        }
+
+        /* Top Action Bar for browser viewers */
+        .no-print {
+            max-width: 850px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e1b24;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .no-print h2 {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .print-btn {
+            background: #7c3aed;
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .print-btn:hover {
+            background: #6d28d9;
+        }
+
+        .back-btn {
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Resume Typography & Sections */
+        header {
+            border-bottom: 2px solid #2e2a36;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 28pt;
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .title-subtitle {
+            font-size: 13pt;
+            font-weight: 600;
+            color: #4c1d95;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .contact-info {
+            font-size: 9.5pt;
+            color: #4b5563;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .contact-info a {
+            color: #4b5563;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: #4c1d95;
+            text-decoration: underline;
+        }
+
+        .sep {
+            color: #d1d5db;
+        }
+
+        section {
+            margin-bottom: 22px;
+        }
+
+        h2.section-title {
+            font-size: 12pt;
+            font-weight: 700;
+            color: #1e1b24;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1.5px solid #e5e7eb;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+
+        p.summary-text {
+            font-size: 10.5pt;
+            color: #374151;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            row-gap: 8px;
+            font-size: 10pt;
+        }
+
+        .skill-category {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .skill-list {
+            color: #374151;
+        }
+
+        /* Projects & Experience */
+        .project-item {
+            margin-bottom: 16px;
+        }
+
+        .project-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .project-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .project-tech {
+            font-size: 9.5pt;
+            font-family: 'JetBrains Mono', monospace;
+            color: #6d28d9;
+            font-weight: 500;
+        }
+
+        .project-links {
+            font-size: 9pt;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .project-links a {
+            color: #4c1d95;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+
+        ul.bullet-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 4px;
+        }
+
+        ul.bullet-list li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+            font-size: 10pt;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        ul.bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 4px;
+            color: #6d28d9;
+            font-weight: bold;
+        }
+
+        /* Education */
+        .edu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            font-size: 10.5pt;
+        }
+
+        .edu-school {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .edu-degree {
+            color: #374151;
+        }
+
+        .edu-year {
+            font-size: 9.5pt;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* Print Specific Styles */
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+                color: #000000;
+                font-size: 10.5pt;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            a {
+                color: #000000 !important;
+                text-decoration: none !important;
+            }
+
+            .project-tech {
+                color: #333333 !important;
+            }
+
+            h1, h2, h3 {
+                color: #000000 !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <div>
+            <h2>📄 Adetola Abdulkareem Ayinde — Executive Resume</h2>
+            <a href="/" class="back-btn">← Return to Portfolio Hub</a>
+        </div>
+        <button onclick="window.print()" class="print-btn">🖨️ Print / Download PDF</button>
+    </div>
+
+    <div class="resume-container">
+        <header>
+            <h1>Adetola Abdulkareem Ayinde</h1>
+            <div class="title-subtitle">Full-Stack Software Developer &amp; AI Integration Engineer</div>
+            <div class="contact-info">
+                <span>📍 Lagos, Nigeria (Open to Global Relocation)</span>
+                <span class="sep">•</span>
+                <span>✉️ <a href="mailto:contact@imp3rial.dev">contact@imp3rial.dev</a></span>
+                <span class="sep">•</span>
+                <span>💻 <a href="https://github.com/SznImperial" target="_blank">github.com/SznImperial</a></span>
+                <span class="sep">•</span>
+                <span>🔗 <a href="https://www.linkedin.com/in/abdulkareem-adetola-b570b3405" target="_blank">LinkedIn Profile</a></span>
+            </div>
+        </header>
+
+        <section>
+            <h2 class="section-title">Professional Summary</h2>
+            <p class="summary-text">
+                Results-driven Full-Stack Software Developer with demonstrated expertise in architecting production-ready B2B SaaS applications, scalable relational databases, and AI-assisted automation tools. Experienced in bridging rigorous Data Science frameworks with modern, high-performance frontend interfaces. Active technical writer and competitive builder in the global Hack Club ecosystem, logging over 1.5M+ lines of code across 40+ completed software architectures and 20+ live web deployments.
+            </p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Core Technical Competencies</h2>
+            <div class="skills-grid">
+                <div class="skill-category">Frontend &amp; UI</div>
+                <div class="skill-list">Next.js 16 (App Router), React 19, TypeScript, JavaScript (ES6+), Tailwind CSS v4, Responsive Layouts, Turbopack, State Management.</div>
+
+                <div class="skill-category">Backend &amp; Databases</div>
+                <div class="skill-list">Python, Django, Supabase, PostgreSQL, Relational Schema Design, Row-Level Security (RLS) Enforcement, RESTful APIs, Multi-Tenant Systems.</div>
+
+                <div class="skill-category">AI &amp; Data Science</div>
+                <div class="skill-list">Groq LLaMA 3.3 Integration, Document OCR &amp; Vision Parsing, Knowledge Graph Structures, Statistical Modeling, Probability &amp; Analytics.</div>
+
+                <div class="skill-category">Tools &amp; Workflows</div>
+                <div class="skill-list">Git, GitHub Workflows, Shell / Linux Environment, Agile Methodologies, Technical Documentation, Video Asset Engineering (DaVinci Resolve / CapCut).</div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Featured Engineering Projects</h2>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <span class="project-title">IMP3RIAL EDU — Multi-Tenant B2B SaaS School Management Platform</span>
+                    <span class="project-tech">[ Next.js 16 • Supabase • PostgreSQL • Strict RLS ]</span>
+                </div>
+                <div class="project-links">
+                    Live: <a href="https://eduvantages.netlify.app" target="_blank">eduvantages.netlify.app</a> | Code: <a href="https://github.com/SznImperial/eduvantage" target="_blank">github.com/SznImperial/eduvantage</a>
+                </div>
+                <ul class="bullet-list">
+                    <li>Architected and deployed a multi-tenant enterprise school system with server-side tenant isolation enforced directly through PostgreSQL Row-Level Security (RLS) to prevent cross-school data breaches.</li>
+                    <li>Engineered role-segmented dashboards for administrators, teachers, parents, and students, including computer-based testing (CBT) with fullscreen proctoring and collision-aware automated timetable allocations.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <span class="project-title">IdeaRoom — Real-Time AI Collaboration &amp; Document Analysis Hub</span>
+                    <span class="project-tech">[ Next.js • React • Supabase • Groq LLaMA API ]</span>
+                </div>
+                <div class="project-links">
+                    Live: <a href="https://idearoom.netlify.app" target="_blank">idearoom.netlify.app</a> | Code: <a href="https://github.com/SznImperial/IdeaRoom" target="_blank">github.com/SznImperial/IdeaRoom</a>
+                </div>
+                <ul class="bullet-list">
+                    <li>Developed a virtual workspace blending real-time user communication with automated AI document extraction, instant meeting minute summarization, and interactive quiz generation.</li>
+                    <li>Integrated hybrid authentication pipelines with magic link fallbacks, document-aware AI context injection, and dynamic Groq Vision model switching for real-time visual diagram evaluation.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <span class="project-title">vibe.fm — AI Natural Language Music &amp; Mood Curator</span>
+                    <span class="project-tech">[ Next.js 16 • TypeScript • Groq 70B • YouTube Data API ]</span>
+                </div>
+                <div class="project-links">
+                    Live: <a href="https://fmvibe.netlify.app" target="_blank">fmvibe.netlify.app</a> | Code: <a href="https://github.com/SznImperial/vibe.fm" target="_blank">github.com/SznImperial/vibe.fm</a>
+                </div>
+                <ul class="bullet-list">
+                    <li>Built an intelligent content discovery engine utilizing Groq LLaMA 3.3 to analyze mood and situational intent from conversational inputs, dynamically chaining results into customized streaming playlists with inline playback.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-header">
+                    <span class="project-title">Ansar-Ud-Deen SMS — Full-Stack Educational Management Portal</span>
+                    <span class="project-tech">[ Next.js 16 • React 19 • Tailwind CSS • PostgreSQL ]</span>
+                </div>
+                <ul class="bullet-list">
+                    <li>Engineered a custom production school portal featuring seamless multi-child account switching for parents and an interactive side-by-side evaluation interface for teacher evaluation of handwritten coursework PDFs.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Education &amp; Credentials</h2>
+            <div class="edu-item">
+                <div>
+                    <span class="edu-school">University of Lagos (UNILAG)</span> — <span class="edu-degree">Bachelor of Science in Data Science</span>
+                </div>
+                <span class="edu-year">In Progress</span>
+            </div>
+            <div class="edu-item">
+                <div>
+                    <span class="edu-school">Aptech Computer Education</span> — <span class="edu-degree">Advanced Diploma in Software Engineering (ADSE)</span>
+                </div>
+                <span class="edu-year">Graduating Oct 2026</span>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Publications &amp; Community Engagement</h2>
+            <ul class="bullet-list">
+                <li><strong>Technical Writer &amp; Creator:</strong> Authored publication series on LinkedIn analyzing full-stack paradigms and engineering ethics, including <em>"Why Next.js is Still King in 2026"</em>, <em>"Unpacking AI TRiM &amp; Guardrails"</em>, and <em>"The Cost of Being a Junior Dev"</em>.</li>
+                <li><strong>Hack Club Ecosystem:</strong> Active competitor and developer logging coding hours across intensive rapid prototype builds and open-source contributions.</li>
+                <li><strong>Strategic &amp; Analytical Pursuits:</strong> Competitive chess player, speed Rubik's cube algorithm problem solver, and analytical poker enthusiast.</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

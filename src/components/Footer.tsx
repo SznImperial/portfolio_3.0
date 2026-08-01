@@ -1,105 +1,171 @@
-import { useEffect, useState } from 'react';
-import { Github, Linkedin, Twitter, ArrowUp, Cpu, Server } from 'lucide-react';
+import { Github, Linkedin, AtSign, ArrowUp, Mail, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Footer() {
-  const [uptime, setUptime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setUptime((prev) => prev + 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const socials = portfolioData.socials;
 
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Technical Skills', path: '/skills' },
+    { name: 'Featured Projects', path: '/projects' },
+    { name: 'Articles & Insights', path: '/articles' },
+    { name: 'Contact & Inquiries', path: '/contact' },
+  ];
+
   return (
     <footer
-      className="bg-[#030406] border-t border-cyber-accent/15 py-12 relative overflow-hidden"
+      className="bg-dark-surface border-t border-dark-border py-16 text-text overflow-hidden font-sans"
       role="contentinfo"
     >
-      <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
+        {/* 4-Column Editorial Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14 border-b border-dark-border/70">
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-cyber-accent/10">
-
-          <div className="text-left space-y-2">
-            <div className="flex items-center space-x-2 font-mono text-sm font-bold text-cyber-accent">
-              <Server className="w-4 h-4 text-cyber-accent" />
-              <span>TERMINAL NODE: {portfolioData.cyberAlias}</span>
+          {/* Column 1: Brand & Identity (4 Cols) */}
+          <div className="lg:col-span-4 space-y-4">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-accent-light block mb-1">
+                {portfolioData.cyberAlias}
+              </span>
+              <h3 className="text-2xl font-extrabold text-white tracking-tight">
+                {portfolioData.developerName}
+              </h3>
             </div>
-            <div className="font-mono text-[10px] text-cyber-light/40 space-y-1">
-              <div>HOST: 127.0.0.1 // LOCALHOST</div>
-              <div className="flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-cyber-accent/50" />
-                <span>UPTIME: {uptime}s (SESSION ACTIVE)</span>
-              </div>
+            <p className="text-sm text-text-muted leading-relaxed max-w-sm">
+              Full-Stack Software Developer &amp; Designer building high-performance web platforms, educational SaaS systems, and AI automation tools.
+            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-bg border border-dark-border/80 text-xs text-text-secondary font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Based in Lagos, Nigeria • Open to relocation</span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
-            {socials.github && (
-              <a
-                href={socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border border-cyber-accent/20 rounded hover:border-cyber-accent hover:bg-cyber-accent/10 text-cyber-light hover:text-cyber-accent transition-all duration-200"
-                aria-label="GitHub Profile Link"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-            )}
-            {socials.linkedin && (
-              <a
-                href={socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border border-cyber-accent/20 rounded hover:border-cyber-accent hover:bg-cyber-accent/10 text-cyber-light hover:text-cyber-accent transition-all duration-200"
-                aria-label="LinkedIn Profile Link"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-            )}
-            {socials.twitter && (
-              <a
-                href={socials.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border border-cyber-accent/20 rounded hover:border-cyber-accent hover:bg-cyber-accent/10 text-cyber-light hover:text-cyber-accent transition-all duration-200"
-                aria-label="Twitter Profile Link"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-            )}
+          {/* Column 2: Quick Navigation (3 Cols) */}
+          <div className="lg:col-span-3 space-y-3 lg:pl-6">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-white font-bold">
+              Navigation
+            </h4>
+            <ul className="space-y-2 text-sm">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.path}
+                    className="text-text-muted hover:text-white transition-colors block py-0.5 hover:translate-x-0.5 transform duration-150"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <a
+                  href="/Adetola_Ayinde_Resume.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent-light hover:text-white transition-colors block py-0.5 hover:translate-x-0.5 transform duration-150 font-medium"
+                >
+                  Resume / CV ↗
+                </a>
+              </li>
+            </ul>
           </div>
 
-          <div>
-            <button
-              onClick={handleScrollTop}
-              type="button"
-              className="flex items-center space-x-2 font-mono text-xs text-cyber-accent border border-cyber-accent/30 hover:border-cyber-accent hover:bg-cyber-accent/10 px-4 py-2.5 transition-all duration-200 cursor-pointer"
-              aria-label="Return to top of page"
-            >
-              <span>SYS_BOUNCE_TOP</span>
-              <ArrowUp className="w-4 h-4 animate-bounce" />
-            </button>
+          {/* Column 3: Connect & Profiles (3 Cols) */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-white font-bold">
+              Professional Profiles
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <a
+                  href={socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-text-muted hover:text-accent-light transition-colors group"
+                >
+                  <Github className="w-4 h-4 text-text-secondary group-hover:text-accent-light" />
+                  <span>GitHub Repository</span>
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href={socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-text-muted hover:text-accent-light transition-colors group"
+                >
+                  <Linkedin className="w-4 h-4 text-text-secondary group-hover:text-accent-light" />
+                  <span>LinkedIn Profile</span>
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
+              {socials.threads && (
+                <li>
+                  <a
+                    href={socials.threads}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-text-muted hover:text-accent-light transition-colors group"
+                  >
+                    <AtSign className="w-4 h-4 text-text-secondary group-hover:text-accent-light" />
+                    <span>Threads (@_ayomiposi4tw)</span>
+                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                </li>
+              )}
+              <li>
+                <a
+                  href={`mailto:${socials.email}`}
+                  className="inline-flex items-center gap-2 text-text-muted hover:text-accent-light transition-colors group"
+                >
+                  <Mail className="w-4 h-4 text-text-secondary group-hover:text-accent-light" />
+                  <span>{socials.email}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Back to Top & Specs (2 Cols) */}
+          <div className="lg:col-span-2 flex flex-col justify-between items-start space-y-6">
+            <div className="space-y-3 w-full">
+              <h4 className="font-mono text-xs uppercase tracking-wider text-white font-bold">
+                Actions
+              </h4>
+              <button
+                onClick={handleScrollTop}
+                type="button"
+                className="w-full flex items-center justify-center space-x-2 text-xs font-medium text-white bg-dark-bg border border-dark-border hover:border-accent/80 hover:bg-accent/10 px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer shadow-sm group"
+                aria-label="Return to top of page"
+              >
+                <span>Return to top</span>
+                <ArrowUp className="w-3.5 h-3.5 text-text-muted group-hover:text-white transition-colors" />
+              </button>
+            </div>
+            
+            <p className="text-[11px] text-text-muted leading-normal">
+              Engineered with React 19, Vite, TypeScript &amp; Tailwind CSS v4.
+            </p>
           </div>
 
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-cyber-light/40 gap-4">
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-cyber-accent animate-pulse"></span>
-            <span>BUILD: COMPILED_SUCCESSFULLY // NODE_ENV = PROD</span>
-          </div>
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-text-muted gap-4">
           <div>
-            <span>© {new Date().getFullYear()} {portfolioData.developerName}. REL_3.0_VOIDSCAPE.</span>
+            <span>© {new Date().getFullYear()} {portfolioData.developerName}. All rights reserved.</span>
+          </div>
+          <div className="flex items-center space-x-6">
+            <Link to="/contact" className="hover:text-white transition-colors">
+              Get in touch
+            </Link>
+            <span className="text-dark-border">•</span>
+            <span className="text-text-secondary">Lagos, Nigeria (WAT)</span>
           </div>
         </div>
 
@@ -107,3 +173,4 @@ export default function Footer() {
     </footer>
   );
 }
+

@@ -14,8 +14,6 @@ export interface Project {
   technologies: string[];
   liveUrl: string;
   githubUrl: string;
-  mockupType: 'terminal' | 'dashboard' | 'browser';
-  mockupContent: string[]; // Lines of content/logs or key statistics
   featured: boolean;
 }
 
@@ -32,8 +30,14 @@ export interface Article {
 export interface SocialLinks {
   github: string;
   linkedin: string;
-  twitter?: string;
+  threads?: string;
   email: string;
+}
+
+export interface Stats {
+  linesWritten: string;
+  projectsCompleted: string;
+  projectsDeployed: string;
 }
 
 export interface PortfolioData {
@@ -45,156 +49,137 @@ export interface PortfolioData {
   tagline: string;
   bio: string;
   socials: SocialLinks;
+  stats: Stats;
   skills: Skill[];
   projects: Project[];
   articles: Article[];
 }
 
 export const portfolioData: PortfolioData = {
-  department: "Statistics Student at University of Lagos",
+  department: "Data Science at UNILAG & Software Engineering at Aptech",
   fullName: "Adetola Abdulkareem Ayinde",
   developerName: "Adetola Abdulkareem Ayinde",
-  developerTitle: "Full-Stack Software Developer",
+  developerTitle: "Full-Stack Software Developer & Designer",
   cyberAlias: "IMPƎRIAL", 
-  tagline: "Building robust full-stack applications with elegant user experiences and statistical precision.",
-  bio: "Full-stack developer operating at the intersection of reactive frontend interfaces and data-driven backend architectures. Currently specializing in Statistics at the University of Lagos while engineering scalable web ecosystems, multi-tenant SaaS platforms, and automated workflow configurations.",
+  tagline: "Building software that solves real problems, from SaaS platforms to AI-assisted tools and creative web experiments.",
+  bio: "I'm Ayomiposi, a developer and designer building software that solves real problems, from school management platforms to AI-assisted tools and creative web experiments. I'm currently completing an Advanced Diploma in Software Engineering at Aptech (graduating October 2026) while also pursuing a Data Science degree at the University of Lagos.\n\nI've worked on projects like Imp3rial Edu, a school management SaaS platform, and Ansar-Ud-Deen, a production-intended school system architected from scratch. I've also built Imp3rial Charts, a Nigeria and Africa-focused music and film chart platform.\n\nI care about shipping polished, functional products, whether that's a hackathon build like Mindvault (a personal knowledge graph app) or Terminus Sequence, a 3D particle morphing countdown built for Google I/O 2026. I'm active in the Hack Club ecosystem, where I track my coding hours and take on build challenges that push me to try new things fast.\n\nOutside of code, you'll find me solving a Rubik's cube, playing chess, or at the poker table, alongside a general love for music and gaming.",
   socials: {
     github: "https://github.com/SznImperial", 
     linkedin: "https://www.linkedin.com/in/abdulkareem-adetola-b570b3405", 
-    twitter: "https://x.com/Szn_Imperial", 
-    email: "adetolaabdulkareem40@gmail.com" 
+    threads: "https://www.threads.com/@_ayomiposi4tw", 
+    email: "contact@imp3rial.dev" 
+  },
+  stats: {
+    linesWritten: '1.5M+',
+    projectsCompleted: '40+',
+    projectsDeployed: '20+'
   },
   skills: [
     // Frontend
     { name: "React", level: 90, category: "frontend", iconName: "React" },
     { name: "Next.js", level: 85, category: "frontend", iconName: "Nextjs" },
+    { name: "TypeScript", level: 85, category: "frontend", iconName: "TypeScript" },
     { name: "Tailwind CSS", level: 92, category: "frontend", iconName: "Tailwind" },
-    { name: "JavaScript", level: 88, category: "frontend", iconName: "JavaScript" },
     
     // Backend
     { name: "Python / Django", level: 92, category: "backend", iconName: "Python" },
-    { name: "C#", level: 80, category: "backend", iconName: "Csharp" },
+    { name: "Supabase", level: 88, category: "backend", iconName: "Database" },
+    { name: "PostgreSQL", level: 82, category: "backend", iconName: "Database" },
     { name: "REST APIs", level: 85, category: "backend", iconName: "API" },
-    { name: "Java / Spring Boot", level: 60, category: "backend", iconName: "Java" }, 
     
     // Tools / Environment
-    { name: "Antigravity IDE", level: 95, category: "tools", iconName: "Terminal" },
     { name: "Git / GitHub", level: 88, category: "tools", iconName: "Git" },
+    { name: "AI / LLM Integration", level: 80, category: "tools", iconName: "Bot" },
+    { name: "Statistics & Data Analysis", level: 85, category: "tools", iconName: "LineChart" },
     { name: "DaVinci Resolve / CapCut", level: 85, category: "tools", iconName: "Video" }
   ],
   projects: [
     {
-      id: "eduvantage-backend",
-      title: "EduVantage Core (In-Work)",
-      tagline: "Multi-tenant engine backend pipeline.",
-      description: "A robust multi-tenant backend architecture with strict tenant isolation, customizable database routing, and secure API endpoints.",
-      longDescription: "The core engine powering a multi-tenant SaaS management ecosystem. Engineered with Django and a relational database framework to maintain strict data boundaries and secure, scalable tenant provisioning across separate operational tracks.",
-      technologies: ["Python", "Django", "REST APIs", "PostgreSQL"],
-      liveUrl: "#", 
+      id: "imp3rial-edu",
+      title: "IMP3RIAL EDU",
+      tagline: "Multi-tenant B2B SaaS school management platform.",
+      description: "A single-instance, multi-tenant school management platform with RLS-enforced tenant isolation, CBT proctoring, brute-force login protection, and role-based dashboards for admins, teachers, students, and parents.",
+      longDescription: "A comprehensive B2B SaaS platform built on Next.js 16 (App Router) and Supabase (PostgreSQL). Enforces strict multi-tenancy through PostgreSQL Row-Level Security and server-side tenant verification to prevent cross-school data leaks. Features include computer-based testing with fullscreen proctoring, timetable/subject allocation, bulk student promotions, subscription-based student caps, and role-segmented dashboards.",
+      technologies: ["Next.js", "Supabase", "PostgreSQL", "Tailwind CSS"],
+      liveUrl: "https://eduvantages.netlify.app", 
       githubUrl: "https://github.com/SznImperial/eduvantage", 
-      mockupType: "terminal",
-      mockupContent: [
-        "django-admin runserver --settings=eduvantage.core",
-        "[OK] Migrations verified for active tenants",
-        "[SECURE] Subdomain isolation filter enabled",
-        "[DB Engine] Routing to tenant_db_04... Success",
-        "Backend Listener: http://localhost:8000"
-      ],
+      featured: true
+    },
+    {
+      id: "idearoom",
+      title: "IdeaRoom",
+      tagline: "Real-time AI collaboration & brainstorming hub.",
+      description: "A premium virtual collaboration room blending real-time communication with AI — brainstorm, analyze documents, generate meeting minutes, build study plans, and take interactive quizzes together.",
+      longDescription: "A state-of-the-art collaboration platform built on Next.js (App Router) and Supabase with Groq-powered AI. Features hybrid auth with magic links, document-aware AI context injection, Groq Vision model swapping for image analysis, interactive quiz generation, PDF export, and a premium Dark Cocoa & Caramel Gold glassmorphism UI.",
+      technologies: ["Next.js", "React", "Supabase", "Groq API"],
+      liveUrl: "https://idearoom.netlify.app",
+      githubUrl: "https://github.com/SznImperial/IdeaRoom",
+      featured: true
+    },
+    {
+      id: "vibe-fm",
+      title: "vibe.fm",
+      tagline: "AI-powered music curator for any moment.",
+      description: "An AI music curator that generates personalized YouTube playlists from plain-text vibe descriptions — studying, cooking, working out — powered by Groq's LLaMA 3.3 70B with real-time YouTube search and inline playback.",
+      longDescription: "A context-aware music discovery app built on Next.js 16 and TypeScript. Uses Groq AI to analyze mood, energy, and activity from natural language input, then chains results into YouTube Data API v3 searches to build instant playlists with embedded playback and vibe profiling.",
+      technologies: ["Next.js", "TypeScript", "Groq API", "YouTube API"],
+      liveUrl: "https://fmvibe.netlify.app",
+      githubUrl: "https://github.com/SznImperial/vibe.fm",
+      featured: true
+    },
+    {
+      id: "ansar-ud-deen-sms",
+      title: "Ansar-Ud-Deen SMS",
+      tagline: "Full-stack educational & role-based school management portal.",
+      description: "A comprehensive educational portal featuring custom role-based dashboards for admins, teachers, students, and parents, complete with coursework grading (handwritten math sheets & PDFs), attendance tracking, and fee billing.",
+      longDescription: "Engineered with Next.js 16 (App Router), React 19, Tailwind CSS v4, and Supabase PostgreSQL. Features multi-child switching for parents, side-by-side active grading panels for teachers, collision-aware timetable builders for administrators, and an innovative offline mock database simulation using localStorage fallback.",
+      technologies: ["Next.js", "Supabase", "PostgreSQL", "Tailwind CSS"],
+      liveUrl: "https://ansaruddeenschools.netlify.app",
+      githubUrl: "https://github.com/SznImperial/Ansar-Ud-Deen-SMS",
       featured: true
     },
     {
       id: "dejargonizer",
       title: "De-Jargonizer",
-      tagline: "Technical text simplification node.",
-      description: "A sleek interface built to strip heavy academic or technical jargon from text blocks, translating them into digestible terms.",
-      longDescription: "A specialized text processing application designed to detect, highlight, and translate industry-heavy jargon into clear phrases, improving language accessibility for non-technical stakeholders.",
+      tagline: "AI-powered text and jargon simplification tool.",
+      description: "A specialized web application designed to translate complex technical, legal, and academic jargon into clear, digestible plain English.",
+      longDescription: "Built to improve language accessibility and team communication by automatically identifying industry-heavy buzzwords and offering clear, precise real-time definitions and simplified summaries.",
       technologies: ["React", "JavaScript", "Tailwind CSS"],
       liveUrl: "https://dejargonizer.netlify.app",
       githubUrl: "https://github.com/SznImperial/De-Jargonizer",
-      mockupType: "browser",
-      mockupContent: [
-        "https://dejargonizer.netlify.app",
-        "Parser Thread: ACTIVE",
-        "Jargon Density Analyzed: 42%",
-        "Simplification Pipeline: OK",
-        "Render Time: 18ms"
-      ],
       featured: true
     },
     {
       id: "homestyler",
       title: "HomeStyler Pro",
-      tagline: "Interactive layout and design client.",
-      description: "A fast, responsive web interface built for staging layouts and customizing interior aesthetic setups seamlessly.",
-      longDescription: "A clean frontend application allowing users to preview, coordinate, and interact with design layouts, optimizing responsiveness across mobile configurations.",
+      tagline: "Interactive interior design and layout visualizer.",
+      description: "A fast, responsive web application for staging floor plans and exploring modern interior design layouts and style setups.",
+      longDescription: "A frontend platform allowing designers and homeowners to preview, mix, and coordinate furniture aesthetics with an intuitive interactive interface optimized for mobile and desktop displays.",
       technologies: ["React", "JavaScript", "Tailwind CSS"],
       liveUrl: "https://homestylerp.netlify.app",
       githubUrl: "https://github.com/SznImperial/HomeStyler",
-      mockupType: "browser",
-      mockupContent: [
-        "https://homestylerp.netlify.app",
-        "UI State: INITIALIZED",
-        "Asset Optimization: WebP Enabled",
-        "Viewport Sync: 60Hz Mobile-First",
-        "Lighthouse Layout Score: 100"
-      ],
       featured: true
     },
     {
       id: "rennys-closet",
       title: "Renny's Closet",
-      tagline: "E-commerce retail storefront channel.",
-      description: "A highly responsive digital catalog and closet storefront engineered for browsing personal fashion collections.",
-      longDescription: "A custom e-commerce client focused on rapid image rendering, layout fluidness on mobile viewports, and clean interaction layers for a fashion brand catalog.",
+      tagline: "Modern fashion e-commerce storefront & digital catalog.",
+      description: "A sleek retail digital catalog and boutique storefront designed for discovering personal fashion collections and apparel.",
+      longDescription: "A custom e-commerce web application engineered for fast image loading, intuitive collection filtering, and a fluid responsive layout tailored for a contemporary fashion brand.",
       technologies: ["React", "JavaScript", "Tailwind CSS"],
       liveUrl: "https://rennysclosets.netlify.app",
       githubUrl: "https://github.com/SznImperial/rennyscloset_",
-      mockupType: "dashboard",
-      mockupContent: [
-        "Storefront Session: CONNECTED",
-        "Inventory Synced: OK",
-        "Cart Context: OPERATIONAL",
-        "Image Pipeline: CDN Optimized",
-        "SSL Handshake: SECURE"
-      ],
-      featured: true
-    },
-    {
-      id: "estatedev",
-      title: "Estate Dev Manager",
-      tagline: "Property management & development matrix.",
-      description: "A basic portfolio website for an estate manage who is willing to put his brand into the internet's spotlight.",
-      longDescription: "A basic frontend portfolio website to showvase and put thr brand into the internet spotlight.",
-      technologies: ["React", "JavaScript", "Tailwind CSS", "C#"],
-      liveUrl: "https://esstatedev.netlify.app",
-      githubUrl: "https://github.com/SznImperial/estatedev",
-      mockupType: "dashboard",
-      mockupContent: [
-        "Active Portfolios Mapped: 84",
-        "Lease Logic Core: C# API Pipeline",
-        "Database Link: OPERATIONAL",
-        "Query Execution Time: 8ms",
-        "Client Status: LIVE"
-      ],
       featured: true
     },
     {
       id: "omoiyaayo-solar",
       title: "Omoiyaayo Green Energy",
-      tagline: "Sustainable solar matrix visualizer.",
-      description: "A clean green energy web hub presenting solar alternative infrastructure grids and deployment pipelines.",
-      longDescription: "A web deployment built for a professional solar brand highlighting active systems configurations, electrical load metrics, and green energy alternatives.",
+      tagline: "Solar energy brand website & system specifications hub.",
+      description: "A professional commercial platform showcasing sustainable solar energy solutions, inverter systems, and electrical load capacity guidance.",
+      longDescription: "Designed and developed for a renewable energy business to educate customers on clean power alternatives, showcase residential and enterprise solar installations, and simplify client project inquiries.",
       technologies: ["React", "JavaScript", "Tailwind CSS"],
       liveUrl: "https://omoiyaayogreenenergy.netlify.app/",
       githubUrl: "https://github.com/SznImperial/omoiyaayo-solar",
-      mockupType: "browser",
-      mockupContent: [
-        "https://omoiyaayogreenenergy.netlify.app",
-        "Inverter Sync Rate: 100%",
-        "Grid Integrity: OPTIMIZED",
-        "Carbon Offset Metric: CALCULATED",
-        "Status: ONLINE // SECURE"
-      ],
       featured: true
     }
   ],
