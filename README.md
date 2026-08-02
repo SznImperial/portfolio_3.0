@@ -1,73 +1,25 @@
-# React + TypeScript + Vite
+# IMPƎRIAL — Developer Portfolio & CMS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Official web portfolio and content management system for **Adetola Abdulkareem Ayinde** (IMPƎRIAL), showcasing software engineering projects, professional publications, and technical capabilities.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repository powers [imp3rial.dev](https://imp3rial.dev). It serves as a permanent digital presence and portfolio for full-stack web platforms, database design case studies, and practical AI integrations developed for commercial and educational environments.
 
-## React Compiler
+### Key Content & Sections
+- **Project Showcase:** Detailed overviews of commercial web platforms, school management systems, and open-source utility tools.
+- **Writings & Articles:** A library of engineering breakdowns, system design insights, and technical guides.
+- **Print-Ready Resume / CV:** An interactive, high-contrast document engine designed for immediate A4 PDF downloads by recruiters and prospective clients.
+- **Content Management Portal:** An administrative interface allowing authenticated content modifications across the portfolio directly from a web dashboard.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Contact & Professional Profiles
 
-## Expanding the ESLint configuration
+- **Live Website:** [imp3rial.dev](https://imp3rial.dev)
+- **Official Inquiries:** contact@imp3rial.dev
+- **GitHub:** [SznImperial](https://github.com/SznImperial)
+- **LinkedIn:** [Adetola Abdulkareem Ayinde](https://linkedin.com/in/adetola-abdulkareem-ayinde)
+- **Threads:** [@_ayomiposi4tw](https://www.threads.com/@_ayomiposi4tw)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*Based in Lagos, Nigeria • Open to global relocation and international software development roles.*
