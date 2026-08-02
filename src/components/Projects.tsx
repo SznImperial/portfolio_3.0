@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 import { ExternalLink, Github } from 'lucide-react';
 
 const Projects: React.FC = () => {
@@ -22,7 +22,8 @@ const Projects: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const featuredProjects = portfolioData.projects.filter(p => p.featured);
+  const { data: { projects } } = usePortfolio();
+  const featuredProjects = projects.filter(p => p.featured);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -1,32 +1,167 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   User, Code2, FolderGit, BookOpen, BarChart3, 
   ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp, 
-  Save, Check 
+  Save, Check, Lock, LogOut, Loader2, Cloud, AlertCircle
 } from 'lucide-react';
 
-import { portfolioData, type PortfolioData, type Skill, type Project, type Article } from '../data/portfolioData';
-
-// Deep clone utility to avoid mutating the original data
-const deepClone = <T,>(obj: T): T => JSON.parse(JSON.stringify(obj));
+import { type PortfolioData, type Skill, type Project, type Article } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
+import { supabase } from '../lib/supabase';
 
 export default function AdminPage() {
-  const [data, setData] = useState<PortfolioData>(deepClone(portfolioData));
+  const { data, setData, saveToCloud, cloudStatus } = usePortfolio();
   const [activeSection, setActiveSection] = useState<'profile' | 'skills' | 'projects' | 'articles' | 'stats'>('profile');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<{ text: string; isError?: boolean } | null>(null);
 
-  const showToast = (message: string) => {
-    setToastMessage(message);
+  // Auth State
+  const [session, setSession] = useState<any>(null);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authInProgress, setAuthInProgress] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setAuthLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setAuthLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const showToast = (text: string, isError = false) => {
+    setToastMessage({ text, isError });
     setTimeout(() => {
       setToastMessage(null);
-    }, 3000);
+    }, 4500);
   };
 
-  const handleSave = () => {
-    // In a real app, you would save to Supabase here
-    showToast('Ready for Supabase integration');
+  const handleSave = async () => {
+    const result = await saveToCloud();
+    if (result.success) {
+      showToast('Successfully saved & synchronized with Supabase database!');
+    } else {
+      showToast(`Notice: Saved to browser cache. (${result.error || 'Check Supabase SQL table configuration'})`, true);
+    }
   };
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    setAuthInProgress(true);
+    try {
+      if (authMode === 'signin') {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      } else {
+        const { data: signUpData, error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+        if (signUpData.user && !signUpData.session) {
+          setAuthError('Account registered successfully! If email confirmation is required in your Supabase project, check your inbox or disable "Confirm email" in Supabase Auth settings.');
+        }
+      }
+    } catch (err: any) {
+      setAuthError(err.message || 'Authentication failed');
+    } finally {
+      setAuthInProgress(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center text-text font-sans">
+        <Loader2 className="w-8 h-8 text-accent animate-spin mb-4" />
+        <p className="text-sm text-text-muted font-mono">Verifying administrative credentials...</p>
+      </div>
+    );
+  }
+
+  // Authentication Gateway
+  if (!session) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4 text-text font-sans relative overflow-hidden">
+        {/* Background Decorative Orbs */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-md w-full bg-dark-surface border border-dark-border rounded-2xl p-8 shadow-2xl z-10 relative">
+          <div className="flex items-center gap-3 mb-6 border-b border-dark-border/60 pb-6">
+            <div className="w-12 h-12 rounded-xl bg-accent/20 border border-accent/40 flex items-center justify-center text-accent-light shrink-0">
+              <Lock size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold font-mono text-white tracking-tight">Executive Gateway</h1>
+              <p className="text-xs text-text-muted">Restricted Portfolio CMS • Supabase Auth</p>
+            </div>
+          </div>
+
+          {authError && (
+            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-start gap-2.5 leading-relaxed">
+              <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+              <span>{authError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleAuth} className="space-y-5">
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1.5 uppercase tracking-wider font-mono">Email Address</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="contact@imp3rial.dev"
+                className="w-full bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-sm text-white placeholder-text-muted focus:border-accent focus:ring-1 focus:ring-accent/30 outline-none transition"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1.5 uppercase tracking-wider font-mono">Password</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-sm text-white placeholder-text-muted focus:border-accent focus:ring-1 focus:ring-accent/30 outline-none transition"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={authInProgress}
+              className="w-full py-3 bg-accent hover:bg-accent-dim disabled:opacity-60 text-white font-semibold rounded-lg shadow-lg shadow-accent/20 transition flex items-center justify-center gap-2 cursor-pointer"
+            >
+              {authInProgress && <Loader2 size={16} className="animate-spin" />}
+              <span>{authMode === 'signin' ? 'Unlock Dashboard' : 'Register Admin Account'}</span>
+            </button>
+          </form>
+
+          <div className="mt-6 pt-6 border-t border-dark-border/60 flex items-center justify-between text-xs">
+            <button
+              onClick={() => { setAuthMode(authMode === 'signin' ? 'signup' : 'signin'); setAuthError(null); }}
+              className="text-accent-light hover:underline font-medium cursor-pointer"
+            >
+              {authMode === 'signin' ? 'First time? Register admin account' : 'Already registered? Sign in'}
+            </button>
+            <Link to="/" className="text-text-muted hover:text-white transition">← Return to live site</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const navItems = [
     { id: 'profile', label: 'Profile', icon: <User size={20} /> },
@@ -39,34 +174,56 @@ export default function AdminPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-dark-bg text-text font-sans">
       {/* Sidebar / Top Nav */}
-      <aside className="w-full md:w-64 bg-dark-surface border-b md:border-b-0 md:border-r border-dark-border shrink-0 flex flex-col">
-        <div className="p-6 border-b border-dark-border">
-          <Link to="/" className="flex items-center gap-2 text-text-secondary hover:text-text transition">
-            <ArrowLeft size={18} />
-            <span className="font-medium">Back to Portfolio</span>
-          </Link>
-          <div className="mt-8">
-            <h1 className="text-xl font-bold font-mono text-text">Admin Panel</h1>
-            <p className="text-xs text-text-muted mt-1">Local State Mode</p>
+      <aside className="w-full md:w-64 bg-dark-surface border-b md:border-b-0 md:border-r border-dark-border shrink-0 flex flex-col justify-between">
+        <div>
+          <div className="p-6 border-b border-dark-border">
+            <Link to="/" className="flex items-center gap-2 text-text-secondary hover:text-text transition">
+              <ArrowLeft size={18} />
+              <span className="font-medium text-sm">Back to Portfolio</span>
+            </Link>
+            <div className="mt-6">
+              <h1 className="text-xl font-bold font-mono text-text">Admin CMS</h1>
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs font-mono">
+                <Cloud size={13} className={cloudStatus === 'connected' ? 'text-emerald-400' : 'text-amber-400'} />
+                <span className={`w-1.5 h-1.5 rounded-full ${cloudStatus === 'connected' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
+                <span className={cloudStatus === 'connected' ? 'text-emerald-400' : 'text-amber-400'}>
+                  {cloudStatus === 'connected' ? 'Supabase Sync' : 'Cache Mode'}
+                </span>
+              </div>
+            </div>
           </div>
+
+          <nav className="p-4 flex md:flex-col gap-1.5 overflow-x-auto md:overflow-y-auto no-scrollbar">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveSection(item.id)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all whitespace-nowrap md:whitespace-normal
+                  ${activeSection === item.id 
+                    ? 'bg-accent/15 text-accent-light border-l-2 border-accent' 
+                    : 'text-text-secondary hover:bg-dark-surface-2 hover:text-text'
+                  }`}
+              >
+                {item.icon}
+                {item.label}
+              </button>
+            ))}
+          </nav>
         </div>
 
-        <nav className="flex-1 overflow-x-auto md:overflow-y-auto p-4 flex md:flex-col gap-2 no-scrollbar">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveSection(item.id)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all whitespace-nowrap md:whitespace-normal
-                ${activeSection === item.id 
-                  ? 'bg-accent/10 text-accent-light md:border-l-2 border-b-2 md:border-b-0 border-accent rounded-l-none md:rounded-l-none rounded-b-none' 
-                  : 'text-text-secondary hover:bg-dark-surface-2 hover:text-text'
-                }`}
-            >
-              {item.icon}
-              {item.label}
-            </button>
-          ))}
-        </nav>
+        <div className="p-4 border-t border-dark-border bg-dark-bg/40">
+          <div className="flex items-center justify-between text-xs text-text-muted mb-3 px-2">
+            <span className="truncate max-w-[150px]" title={session?.user?.email}>{session?.user?.email}</span>
+            <span className="text-[10px] bg-accent/20 text-accent-light px-2 py-0.5 rounded font-mono">ADMIN</span>
+          </div>
+          <button
+            onClick={handleSignOut}
+            className="w-full py-2 px-3 bg-dark-surface-2 hover:bg-red-500/20 hover:text-red-300 text-text-secondary text-xs font-semibold rounded-md border border-dark-border transition flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <LogOut size={14} />
+            <span>Sign Out</span>
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}
@@ -82,11 +239,13 @@ export default function AdminPage() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 bg-dark-surface-2 border border-accent/30 text-accent-light px-6 py-4 rounded-xl shadow-lg flex items-center gap-3 animate-on-scroll is-visible z-50">
-          <div className="bg-accent/20 p-1.5 rounded-full text-accent">
-            <Check size={18} />
+        <div className={`fixed bottom-6 right-6 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-on-scroll is-visible z-50 border ${
+          toastMessage.isError ? 'bg-dark-surface-2 border-amber-500/50 text-amber-300' : 'bg-dark-surface-2 border-accent/40 text-accent-light'
+        }`}>
+          <div className={`p-1.5 rounded-full ${toastMessage.isError ? 'bg-amber-500/20 text-amber-400' : 'bg-accent/20 text-accent'}`}>
+            {toastMessage.isError ? <AlertCircle size={18} /> : <Check size={18} />}
           </div>
-          <span className="font-medium">{toastMessage}</span>
+          <span className="font-medium text-sm">{toastMessage.text}</span>
         </div>
       )}
     </div>
@@ -117,21 +276,26 @@ const Textarea = ({ label, ...props }: React.TextareaHTMLAttributes<HTMLTextArea
   </div>
 );
 
-const SectionHeader = ({ title, description, onSave }: { title: string, description: string, onSave: () => void }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-    <div>
-      <h2 className="text-2xl font-bold text-text mb-2">{title}</h2>
-      <p className="text-sm text-text-muted">{description}</p>
+const SectionHeader = ({ title, description, onSave }: { title: string, description: string, onSave: () => void }) => {
+  const { isSaving } = usePortfolio();
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <h2 className="text-2xl font-bold text-text mb-2">{title}</h2>
+        <p className="text-sm text-text-muted">{description}</p>
+      </div>
+      <button 
+        onClick={onSave}
+        disabled={isSaving}
+        className="flex items-center justify-center gap-2 bg-accent hover:bg-accent-dim disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-lg transition shrink-0 shadow-lg shadow-accent/20 cursor-pointer"
+      >
+        {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+        <span>{isSaving ? 'Saving to Supabase...' : 'Save Changes'}</span>
+      </button>
     </div>
-    <button 
-      onClick={onSave}
-      className="flex items-center justify-center gap-2 bg-accent hover:bg-accent-dim text-white font-semibold px-6 py-3 rounded-lg transition shrink-0 shadow-lg shadow-accent/20"
-    >
-      <Save size={18} />
-      <span>Save Changes</span>
-    </button>
-  </div>
-);
+  );
+};
+
 
 
 // ==========================================

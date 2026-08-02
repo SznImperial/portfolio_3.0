@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
 import { Mail, Send, CheckCircle2, ShieldAlert, Terminal, Clock, Github, Linkedin, AtSign, Globe, HelpCircle, Briefcase, Copy, Check, ExternalLink, MessageSquare } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Contact() {
+  const { data: portfolioData } = usePortfolio();
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',

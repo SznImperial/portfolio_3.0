@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 import { Layers, Database, Cpu, ArrowDown, FileText } from 'lucide-react';
 
 const Hero: React.FC = () => {
+  const { data: portfolioData } = usePortfolio();
   return (
     <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden bg-dark-bg">
       {/* Background Decorative Orbs */}

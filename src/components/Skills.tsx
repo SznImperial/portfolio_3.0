@@ -1,8 +1,9 @@
 import { Layers, Database, Cpu, Sparkles } from 'lucide-react';
-import { portfolioData, type Skill } from '../data/portfolioData';
+import { type Skill } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Skills() {
-  const skills = portfolioData.skills;
+  const { data: { skills } } = usePortfolio();
 
   const frontendSkills = skills.filter((s) => s.category === 'frontend');
   const backendSkills = skills.filter((s) => s.category === 'backend');

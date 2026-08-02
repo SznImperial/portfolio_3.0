@@ -1,8 +1,9 @@
 import { Github, Linkedin, AtSign, ArrowUp, Mail, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Footer() {
+  const { data: portfolioData } = usePortfolio();
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

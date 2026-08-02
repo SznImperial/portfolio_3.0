@@ -1,8 +1,8 @@
 import { BookOpen, Calendar, Clock, ArrowUpRight } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Articles() {
-  const articles = portfolioData.articles;
+  const { data: { articles } } = usePortfolio();
 
   return (
     <section

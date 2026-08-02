@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import Hero from '../components/Hero';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 import { BookOpen, Code, FileText } from 'lucide-react';
 import CountUp from '../components/CountUp';
 
 const Home: React.FC = () => {
+  const { data: portfolioData } = usePortfolio();
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
